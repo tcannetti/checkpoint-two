@@ -29,8 +29,14 @@ export const deleteUser = () => {
 export const getLocation = (address) => {
   return (dispatch) => {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDyre8M7zQqm4OfYWjPMncW4BMLrDaERDU`)
-    .then()
-    .then()
+    .then(res => res.json())
+    .then(data => {
+      let coordinates = {
+        latitude: data.results[0].geometry.location.lat,
+        longitude: data.results[0].geometry.location.long
+      }
+      return dispatch(getCoordinates(coordinates))
+    })
   }
 }
 
