@@ -1,48 +1,33 @@
-export const addList = (listing) => {
-  return {
-    type: 'ADD_LISTING',
-    value: listing
-  }
-}
-
-export const removeList = (index) => {
-  return {
-    type: 'REMOVE_LISTING',
-    value: index
-  }
-}
-
-export const addUser = (user) => {
-  return {
-    type: 'ADD_USER',
-    value: user
-  }
-}
-
-export const deleteUser = () => {
-  return{
-    type: 'DELETE_USER',
-    value: {}
-  }
-}
-
-export const getLocation = (address) => {
+export const addBus = (business) => {
   return (dispatch) => {
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDyre8M7zQqm4OfYWjPMncW4BMLrDaERDU`)
-    .then(res => res.json())
-    .then(data => {
-      let coordinates = {
-        latitude: data.results[0].geometry.location.lat,
-        longitude: data.results[0].geometry.location.long
-      }
-      return dispatch(getCoordinates(coordinates))
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${business.address}&key=AIzaSyDyre8M7zQqm4OfYWjPMncW4BMLrDaERDU`)
+    .then((res) => res.json())
+    .then((response) => {
+      business.lat = response.results[0].geometry.location.lat;
+      business.lng = response.results[0].geometry.location.lng;
+      const action ={
+        type: "ADD_BUSINESS",
+        value: BusinessTwoTone
+      };
+      dispatch(action)
     })
   }
 }
 
-export const resetGoogleMap = () => {
-  return{
-    type: 'RESET_MAP',
-    value: {}
-  }
-}
+export const removeBus = (id) => {
+  return {
+    type: "REMOVE_BUSINESS",
+    value: id,
+  };
+};
+
+export const loggedIn = (Boolean) => {
+  return { type: "LOG_IN", value: Boolean };
+};
+
+export const setUser = (username) => {
+  return {
+    type: "SET_USER",
+    value: username,
+  };
+};
